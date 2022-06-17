@@ -247,8 +247,8 @@ for branch in ${BRANCH_NAME//,/ }; do
       mkdir -p "$updater_url_overlay_dir"
 
       if grep -q updater_server_url packages/apps/Updater/res/values/strings.xml; then
-        # "New" updater configuration: full URL (with placeholders {device}, {type} and {incr})
-        sed "s|{name}|updater_server_url|g; s|{url}|$OTA_URL/v1/{device}/{type}/{incr}|g" /root/packages_updater_strings.xml > "$updater_url_overlay_dir/strings.xml"
+        # Override "New" updater configuration, revert instead to "Old" updater configuration: just the URL
+        sed "s|{name}|updater_server_url|g; s|{url}|$OTA_URL|g" /root/packages_updater_strings.xml > "$updater_url_overlay_dir/strings.xml"
       elif grep -q conf_update_server_url_def packages/apps/Updater/res/values/strings.xml; then
         # "Old" updater configuration: just the URL
         sed "s|{name}|conf_update_server_url_def|g; s|{url}|$OTA_URL|g" /root/packages_updater_strings.xml > "$updater_url_overlay_dir/strings.xml"
